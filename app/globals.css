@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-light: #FAF3E7;
+  --bg-dark: #12122B;
+  --accent-primary: #F2A93B;
+  --accent-alert: #E85C4A;
+  --accent-success: #2F9E68;
+  --text-primary: #1B1B2F;
+}
+
+body {
+  background-color: var(--bg-light);
+  color: var(--text-primary);
+  font-family: var(--font-public-sans), sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Base button and interactive targets must be at least 44px for touch accessibility */
+button, a, input, select, textarea {
+  min-height: 44px;
+}
+
+h1, h2, h3, .font-title {
+  font-family: var(--font-fraunces), serif;
+}
