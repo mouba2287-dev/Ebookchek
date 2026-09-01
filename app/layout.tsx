@@ -3,9 +3,10 @@ import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CookieBanner from '@/components/CookieBanner';
+import MobileNav from '@/components/MobileNav';
 
 export const metadata: Metadata = {
-  title: 'Ebook Check — Diagnostic & Validation d\'Ebooks pour l\'Afrique Francophone',
+  title: 'Ebook Check — Diagnostic, Validation & Étude de Marché d\'Ebooks',
   description: 'Valide ton idée d\'ebook avant création ou découvre pourquoi ton livre ne se vend pas sur Chariow et Maketou. Diagnostic gratuit & conseils adaptés au marché ouest-africain.',
   openGraph: {
     title: 'Ebook Check — Pourquoi ton ebook ne se vend pas ?',
@@ -40,6 +41,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <CookieBanner />
+        <MobileNav />
       </body>
     </html>
   );
