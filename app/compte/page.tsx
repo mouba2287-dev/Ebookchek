@@ -1,19 +1,47 @@
 'use client';
 
-import { useState } from 'react';
-import { User, ShieldCheck, CreditCard, LogOut, Sparkles, CheckCircle2, Smartphone, Key } from 'lucide-react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import { User, ShieldCheck, LogOut, AlertCircle, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 
-export default function ComptePage() {
+function CompteContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const redirectTarget = searchParams.get('redirect') || '/tableau-de-bord';
+  const msgType = searchParams.get('msg');
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentPlan, setCurrentPlan] = useState<'gratuit' | 'createur' | 'pro'>('gratuit');
 
+  useEffect(() => {
+    // Check if user is logged in locally or via cookie
+    const authCookie = document.cookie.split('; ').find(row => row.startsWith('ebookcheck_auth='));
+    if (authCookie && authCookie.split('=')[1] === 'true') {
+      setIsLoggedIn(true);
+      setEmail(localStorage.getItem('ebookcheck_user_email') || 'createur@gmail.com');
+    }
+  }, []);
+
+  const completeLogin = (userEmail: string) => {
+    setIsLoggedIn(true);
+    setEmail(userEmail);
+    localStorage.setItem('ebookcheck_user_email', userEmail);
+    document.cookie = 'ebookcheck_auth=true; path=/; max-age=2592000'; // 30 days cookie
+
+    // Redirect to original target route
+    setTimeout(() => {
+      router.push(redirectTarget);
+    }, 500);
+  };
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      setIsLoggedIn(true);
+      completeLogin(email);
     }
   };
 
@@ -21,6 +49,8 @@ export default function ComptePage() {
     setIsLoggedIn(false);
     setEmail('');
     setPassword('');
+    document.cookie = 'ebookcheck_auth=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    localStorage.removeItem('ebookcheck_user_email');
   };
 
   return (
@@ -31,15 +61,28 @@ export default function ComptePage() {
           <User className="w-4 h-4 text-[#F2A93B]" /> Espace Compte Utilisateur
         </div>
         <h1 className="font-title text-3xl sm:text-4xl font-extrabold text-[#1B1B2F] dark:text-[#F5F5F3] tracking-tight">
-          Gère ton Profil & tes Abonnements
+          {isLoggedIn ? 'Gère ton Profil & tes Abonnements' : 'Connexion / Création de Compte'}
         </h1>
         <p className="text-sm sm:text-base text-[#1B1B2F]/80 dark:text-[#F5F5F3]/80 max-w-xl mx-auto leading-relaxed">
-          Connecte-toi pour sauvegarder ton historique d&apos;analyses de façon permanente et accéder à tes quotas mensuels Mobile Money.
+          Crée ton compte gratuit pour sauvegarder ton historique d&apos;analyses de façon permanente et accéder à tes rapports.
         </p>
       </div>
 
+      {/* Access Restriction Notification Banner */}
+      {!isLoggedIn && msgType && (
+        <div className="p-4 bg-[#F2A93B]/15 border-2 border-[#F2A93B] rounded-2xl flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-[#12122B] dark:text-[#F2A93B] shrink-0 mt-0.5" />
+          <div className="text-xs sm:text-sm font-medium text-[#12122B] dark:text-white space-y-1">
+            <p className="font-bold">Accès réservé aux membres</p>
+            <p>
+              Crée un compte gratuit ou connecte-toi pour lancer ton diagnostic, accéder à l&apos;Académie et suivre la viabilité de tes ebooks.
+            </p>
+          </div>
+        </div>
+      )}
+
       {!isLoggedIn ? (
-        /* Auth Form (Email / Password + Google OAuth UI mock) */
+        /* Auth Form (Email / Password + Google OAuth UI) */
         <div className="bg-[#FAF8F3] dark:bg-[#1C1C36] border border-[#12122B]/15 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
@@ -74,7 +117,7 @@ export default function ComptePage() {
               type="submit"
               className="w-full bg-[#F2A93B] text-[#12122B] font-extrabold text-base py-3.5 rounded-xl shadow-md hover:bg-[#F2A93B]/90 transition-all flex items-center justify-center gap-2 min-h-[48px]"
             >
-              Se Connecter / S&apos;inscrire
+              Se Connecter / Créer un Compte Gratuit
             </button>
           </form>
 
@@ -85,10 +128,7 @@ export default function ComptePage() {
           </div>
 
           <button
-            onClick={() => {
-              setEmail('createur.demo@gmail.com');
-              setIsLoggedIn(true);
-            }}
+            onClick={() => completeLogin('createur.google@gmail.com')}
             className="w-full bg-white dark:bg-[#12122B] border border-[#12122B]/20 text-[#12122B] dark:text-white font-bold text-sm py-3.5 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-all flex items-center justify-center gap-3 min-h-[48px]"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -117,7 +157,9 @@ export default function ComptePage() {
         <div className="bg-[#FAF8F3] dark:bg-[#1C1C36] border border-[#12122B]/15 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
           <div className="flex justify-between items-center pb-4 border-b border-[#12122B]/10 dark:border-white/10">
             <div>
-              <p className="text-xs text-[#2F9E68] font-bold">Connecté avec succès</p>
+              <p className="text-xs text-[#2F9E68] font-bold flex items-center gap-1">
+                <CheckCircle2 className="w-4 h-4" /> Connecté avec succès
+              </p>
               <h2 className="font-title text-xl font-bold text-[#12122B] dark:text-[#F5F5F3]">{email}</h2>
             </div>
             <button
@@ -154,5 +196,13 @@ export default function ComptePage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function ComptePage() {
+  return (
+    <Suspense fallback={<div className="p-10 text-center text-xs">Chargement...</div>}>
+      <CompteContent />
+    </Suspense>
   );
 }

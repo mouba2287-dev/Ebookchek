@@ -14,7 +14,9 @@ import {
   ShoppingBag,
   HelpCircle,
   Download,
-  ShieldCheck
+  ShieldCheck,
+  Upload,
+  Image as ImageIcon
 } from 'lucide-react';
 import html2canvas from 'html2canvas';
 
@@ -31,6 +33,7 @@ export default function DiagnosticPage() {
     salesCount: 0,
   });
 
+  const [coverPreview, setCoverPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<DiagnosticResult | null>(null);
@@ -47,10 +50,31 @@ export default function DiagnosticPage() {
           ...prev,
           title: prev.title || parsed.title || prev.title,
           priceFcfa: parsed.priceFcfa || prev.priceFcfa,
-          coverStyle: parsed.coverStyle || prev.coverStyle,
         }));
       }
     }
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      setError("L'image est trop lourde (maximum 5 Mo).");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const resultStr = reader.result as string;
+      setCoverPreview(resultStr);
+      setFormData(prev => ({
+        ...prev,
+        hasCoverImage: true,
+        coverStyle: 'custom_pro'
+      }));
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -127,17 +151,17 @@ export default function DiagnosticPage() {
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#12122B] text-[#F2A93B] text-xs font-semibold shadow-sm">
           <Sparkles className="w-4 h-4 text-[#F2A93B]" /> Mode Diagnostic 0 Vente
         </div>
-        <h1 className="font-title text-3xl sm:text-4xl font-extrabold text-[#1B1B2F] tracking-tight">
+        <h1 className="font-title text-3xl sm:text-4xl font-extrabold text-[#1B1B2F] dark:text-[#F5F5F3] tracking-tight">
           Pourquoi ton ebook ne se vend pas ?
         </h1>
-        <p className="text-sm sm:text-base text-[#1B1B2F]/80 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-sm sm:text-base text-[#1B1B2F]/80 dark:text-[#F5F5F3]/80 max-w-2xl mx-auto leading-relaxed">
           Complète ce formulaire rapide. Notre moteur de règles analyse ton produit sur 5 axes stratégiques pour débloquer tes premières ventes.
         </p>
       </div>
 
       {!result ? (
         /* Form view */
-        <form onSubmit={handleSubmit} className="bg-[#FAF3E7] border border-[#12122B]/15 p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
+        <form onSubmit={handleSubmit} className="bg-[#FAF3E7] dark:bg-[#1C1C36] border border-[#12122B]/15 dark:border-white/15 p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
           {error && (
             <div className="p-4 bg-[#E85C4A]/15 border border-[#E85C4A] text-[#E85C4A] rounded-xl text-sm flex items-center gap-3">
               <AlertTriangle className="w-5 h-5 shrink-0" />
@@ -146,8 +170,8 @@ export default function DiagnosticPage() {
           )}
 
           <div className="space-y-2">
-            <label className="block text-sm font-semibold text-[#1B1B2F] flex items-center justify-between">
-              <span>Lien du produit (Chariow, Maketou, Selar...) <span className="text-xs text-[#1B1B2F]/60 font-normal">(Optionnel)</span></span>
+            <label className="block text-sm font-semibold text-[#1B1B2F] dark:text-[#F5F5F3] flex items-center justify-between">
+              <span>Lien du produit (Chariow, Maketou, Selar...) <span className="text-xs text-[#1B1B2F]/60 dark:text-[#F5F5F3]/60 font-normal">(Optionnel)</span></span>
             </label>
             <div className="relative">
               <input
@@ -155,17 +179,17 @@ export default function DiagnosticPage() {
                 placeholder="https://chariow.com/p/mon-ebook-business"
                 value={formData.productUrl}
                 onChange={(e) => handleUrlChange(e.target.value)}
-                className="w-full px-4 py-3 pl-10 bg-white border border-[#1B1B2F]/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F2A93B] text-sm text-[#1B1B2F]"
+                className="w-full px-4 py-3 pl-10 bg-white dark:bg-[#12122B] border border-[#1B1B2F]/20 dark:border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F2A93B] text-sm text-[#1B1B2F] dark:text-white"
               />
-              <LinkIcon className="w-4 h-4 text-[#1B1B2F]/40 absolute left-3 top-3.5" />
+              <LinkIcon className="w-4 h-4 text-[#1B1B2F]/40 dark:text-white/40 absolute left-3 top-3.5" />
             </div>
-            <p className="text-xs text-[#1B1B2F]/60">
+            <p className="text-xs text-[#1B1B2F]/60 dark:text-[#F5F5F3]/60">
               Si tu colles ton lien Chariow ou Maketou, nous pré-remplissons automatiquement les champs détectables.
             </p>
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-semibold text-[#1B1B2F]">
+            <label className="block text-sm font-semibold text-[#1B1B2F] dark:text-[#F5F5F3]">
               Titre complet de l&apos;ebook <span className="text-[#E85C4A]">*</span>
             </label>
             <input
@@ -174,13 +198,13 @@ export default function DiagnosticPage() {
               placeholder="Ex: Le Guide Ultime de l'Importation Chine-Afrique en 2025"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              className="w-full px-4 py-3 bg-white border border-[#1B1B2F]/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F2A93B] text-sm text-[#1B1B2F]"
+              className="w-full px-4 py-3 bg-white dark:bg-[#12122B] border border-[#1B1B2F]/20 dark:border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F2A93B] text-sm text-[#1B1B2F] dark:text-white"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="block text-sm font-semibold text-[#1B1B2F]">
+              <label className="block text-sm font-semibold text-[#1B1B2F] dark:text-[#F5F5F3]">
                 Prix de vente (en FCFA) <span className="text-[#E85C4A]">*</span>
               </label>
               <input
@@ -191,18 +215,18 @@ export default function DiagnosticPage() {
                 placeholder="2500"
                 value={formData.priceFcfa}
                 onChange={(e) => setFormData({ ...formData, priceFcfa: Number(e.target.value) })}
-                className="w-full px-4 py-3 bg-white border border-[#1B1B2F]/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F2A93B] text-sm text-[#1B1B2F]"
+                className="w-full px-4 py-3 bg-white dark:bg-[#12122B] border border-[#1B1B2F]/20 dark:border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F2A93B] text-sm text-[#1B1B2F] dark:text-white"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-semibold text-[#1B1B2F]">
+              <label className="block text-sm font-semibold text-[#1B1B2F] dark:text-[#F5F5F3]">
                 Canal de promotion principal <span className="text-[#E85C4A]">*</span>
               </label>
               <select
                 value={formData.promotionChannel}
                 onChange={(e) => setFormData({ ...formData, promotionChannel: e.target.value as any })}
-                className="w-full px-4 py-3 bg-white border border-[#1B1B2F]/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F2A93B] text-sm text-[#1B1B2F]"
+                className="w-full px-4 py-3 bg-white dark:bg-[#12122B] border border-[#1B1B2F]/20 dark:border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F2A93B] text-sm text-[#1B1B2F] dark:text-white"
               >
                 <option value="whatsapp">Statuts & Groupes WhatsApp</option>
                 <option value="tiktok">Vidéos / Live TikTok</option>
@@ -215,7 +239,7 @@ export default function DiagnosticPage() {
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-semibold text-[#1B1B2F]">
+            <label className="block text-sm font-semibold text-[#1B1B2F] dark:text-[#F5F5F3]">
               Description / Texte de vente <span className="text-[#E85C4A]">*</span>
             </label>
             <textarea
@@ -224,35 +248,48 @@ export default function DiagnosticPage() {
               placeholder="Colle le texte qui présente ton ebook sur ta page de vente..."
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="w-full px-4 py-3 bg-white border border-[#1B1B2F]/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F2A93B] text-sm text-[#1B1B2F]"
+              className="w-full px-4 py-3 bg-white dark:bg-[#12122B] border border-[#1B1B2F]/20 dark:border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F2A93B] text-sm text-[#1B1B2F] dark:text-white"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* Real Image File Upload instead of dropdown */}
             <div className="space-y-2">
-              <label className="block text-sm font-semibold text-[#1B1B2F]">
-                Visuel / Couverture
+              <label className="block text-sm font-semibold text-[#1B1B2F] dark:text-[#F5F5F3]">
+                Visuel / Couverture Réelle (jpg, png, webp)
               </label>
-              <select
-                value={formData.coverStyle}
-                onChange={(e) => setFormData({ ...formData, coverStyle: e.target.value as any })}
-                className="w-full px-4 py-3 bg-white border border-[#1B1B2F]/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F2A93B] text-sm text-[#1B1B2F]"
-              >
-                <option value="canva_template">Template Canva (Design plat)</option>
-                <option value="custom_pro">Mockup Livre 3D Pro</option>
-                <option value="text_only">Image simple avec du texte</option>
-                <option value="no_cover">Aucun visuel / Image floue</option>
-              </select>
+              <div className="flex flex-col gap-3">
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  id="cover-upload"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
+                <label
+                  htmlFor="cover-upload"
+                  className="w-full px-4 py-3 bg-white dark:bg-[#12122B] border border-dashed border-[#1B1B2F]/30 dark:border-white/30 rounded-xl cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-all flex items-center justify-center gap-2 text-sm text-[#1B1B2F] dark:text-white font-medium min-h-[48px]"
+                >
+                  <Upload className="w-4 h-4 text-[#F2A93B]" />
+                  {coverPreview ? "Changer l'image" : "Sélectionner une image"}
+                </label>
+
+                {coverPreview && (
+                  <div className="relative w-32 h-32 rounded-xl overflow-hidden border-2 border-[#F2A93B] shadow-md">
+                    <img src={coverPreview} alt="Aperçu couverture" className="w-full h-full object-cover" />
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-semibold text-[#1B1B2F]">
+              <label className="block text-sm font-semibold text-[#1B1B2F] dark:text-[#F5F5F3]">
                 Ancienneté du produit
               </label>
               <select
                 value={formData.timeOnlineDays}
                 onChange={(e) => setFormData({ ...formData, timeOnlineDays: Number(e.target.value) })}
-                className="w-full px-4 py-3 bg-white border border-[#1B1B2F]/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F2A93B] text-sm text-[#1B1B2F]"
+                className="w-full px-4 py-3 bg-white dark:bg-[#12122B] border border-[#1B1B2F]/20 dark:border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#F2A93B] text-sm text-[#1B1B2F] dark:text-white"
               >
                 <option value={3}>Moins de 7 jours (Lancement)</option>
                 <option value={14}>2 semaines</option>
@@ -314,7 +351,7 @@ export default function DiagnosticPage() {
           {/* Core Visual Report Card (Ref for html2canvas export) */}
           <div
             ref={reportRef}
-            className="bg-[#FAF3E7] border-2 border-[#12122B] rounded-3xl p-6 sm:p-8 shadow-2xl space-y-8"
+            className="bg-[#FAF3E7] dark:bg-[#1C1C36] border-2 border-[#12122B] dark:border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-8"
           >
             {/* Score reveal banner */}
             <div className="bg-[#12122B] text-[#FAF3E7] rounded-2xl p-6 sm:p-8 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
@@ -343,12 +380,12 @@ export default function DiagnosticPage() {
             </div>
 
             {/* Top 4 Priority Actions */}
-            <div className="bg-[#12122B]/5 border border-[#12122B]/10 rounded-2xl p-5 space-y-3">
-              <h4 className="font-title text-base font-bold text-[#12122B] flex items-center gap-2">
+            <div className="bg-[#12122B]/5 dark:bg-white/5 border border-[#12122B]/10 dark:border-white/10 rounded-2xl p-5 space-y-3">
+              <h4 className="font-title text-base font-bold text-[#12122B] dark:text-white flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-[#F2A93B]" />
                 Plan d&apos;Action Prioritaire (Ce qu&apos;il faut changer aujourd&apos;hui)
               </h4>
-              <ul className="space-y-2 text-xs sm:text-sm text-[#1B1B2F]">
+              <ul className="space-y-2 text-xs sm:text-sm text-[#1B1B2F] dark:text-[#F5F5F3]">
                 {result.topActions.map((action, idx) => (
                   <li key={idx} className="flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-[#2F9E68] shrink-0 mt-0.5" />
@@ -360,7 +397,7 @@ export default function DiagnosticPage() {
 
             {/* 5 Axes Detailed Breakdown */}
             <div className="space-y-6">
-              <h4 className="font-title text-xl font-bold text-[#12122B]">
+              <h4 className="font-title text-xl font-bold text-[#12122B] dark:text-white">
                 Analyse détaillée sur les 5 axes
               </h4>
 
@@ -368,30 +405,30 @@ export default function DiagnosticPage() {
                 {Object.values(result.axes).map((axis) => (
                   <div
                     key={axis.key}
-                    className="bg-white border border-[#12122B]/10 rounded-2xl p-5 shadow-sm space-y-3"
+                    className="bg-white dark:bg-[#12122B] border border-[#12122B]/10 dark:border-white/10 rounded-2xl p-5 shadow-sm space-y-3"
                   >
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex items-center gap-3">
-                        <span className="font-title font-bold text-base text-[#12122B]">
+                        <span className="font-title font-bold text-base text-[#12122B] dark:text-white">
                           {axis.label}
                         </span>
                         <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase ${
                           axis.status === 'excellent'
                             ? 'bg-[#2F9E68]/15 text-[#2F9E68]'
                             : axis.status === 'warning'
-                            ? 'bg-[#F2A93B]/20 text-[#12122B]'
+                            ? 'bg-[#F2A93B]/20 text-[#12122B] dark:text-[#F2A93B]'
                             : 'bg-[#E85C4A]/15 text-[#E85C4A]'
                         }`}>
                           {axis.statusLabel}
                         </span>
                       </div>
-                      <span className="font-title font-bold text-lg text-[#12122B]">
+                      <span className="font-title font-bold text-lg text-[#12122B] dark:text-white">
                         {axis.score}/100
                       </span>
                     </div>
 
                     {/* Progress Score Bar */}
-                    <div className="w-full bg-gray-100 h-3 rounded-full overflow-hidden">
+                    <div className="w-full bg-gray-100 dark:bg-white/10 h-3 rounded-full overflow-hidden">
                       <div
                         className={`h-full rounded-full transition-all duration-1000 ${
                           axis.score >= 75
@@ -404,15 +441,15 @@ export default function DiagnosticPage() {
                       />
                     </div>
 
-                    <p className="text-xs text-[#1B1B2F]/80 leading-relaxed font-medium">
+                    <p className="text-xs text-[#1B1B2F]/80 dark:text-[#F5F5F3]/80 leading-relaxed font-medium">
                       {axis.feedback}
                     </p>
 
                     {axis.recommendations.length > 0 && (
-                      <div className="pt-2 border-t border-gray-100 space-y-1.5">
-                        <p className="text-[11px] font-bold text-[#12122B] uppercase">Recommandations :</p>
+                      <div className="pt-2 border-t border-gray-100 dark:border-white/10 space-y-1.5">
+                        <p className="text-[11px] font-bold text-[#12122B] dark:text-white uppercase">Recommandations :</p>
                         {axis.recommendations.map((rec, i) => (
-                          <p key={i} className="text-xs text-[#1B1B2F]/90 flex items-start gap-1.5">
+                          <p key={i} className="text-xs text-[#1B1B2F]/90 dark:text-[#F5F5F3]/90 flex items-start gap-1.5">
                             <ArrowRight className="w-3.5 h-3.5 text-[#F2A93B] shrink-0 mt-0.5" />
                             <span>{rec}</span>
                           </p>
@@ -425,7 +462,7 @@ export default function DiagnosticPage() {
             </div>
 
             {/* Bottom Footer Note */}
-            <div className="text-center pt-4 border-t border-[#12122B]/10 text-xs text-[#1B1B2F]/60">
+            <div className="text-center pt-4 border-t border-[#12122B]/10 dark:border-white/10 text-xs text-[#1B1B2F]/60 dark:text-[#F5F5F3]/60">
               <p>Généré par Ebook Check • L&apos;outil d&apos;analyse pour entrepreneurs digitaux en Afrique de l&apos;Ouest</p>
             </div>
           </div>

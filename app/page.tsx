@@ -6,13 +6,8 @@ import {
   ArrowRight,
   ShieldCheck,
   Smartphone,
-  TrendingUp,
   Zap,
-  HelpCircle,
-  FileCheck2,
   Share2,
-  Star,
-  Quote,
   Camera
 } from 'lucide-react';
 
@@ -55,32 +50,11 @@ export default function HomePage() {
         name: 'Les paiements Mobile Money sont-ils sécurisés ?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Oui, tous les règlements sont chiffrés et traités via les réseaux sécurisés MTN Mobile Money, Moov Money, Orange et Wave via FedaPay/Kkiapay.',
+          text: 'Oui, tous les règlements sont chiffrés et traités via MTN Mobile Money.',
         },
       },
     ],
   };
-
-  const testimonials = [
-    {
-      name: 'Koffi A.',
-      role: 'Infopreneur à Cotonou (Bénin)',
-      text: 'Mon ebook sur l\'importation Chine stagnait à 0 vente depuis 3 semaines sur Chariow. Le diagnostic m\'a montré que mon titre n\'était pas assez explicite. Après correction, j\'ai fait 18 ventes en 48h !',
-      score: 5,
-    },
-    {
-      name: 'Sarra M.',
-      role: 'Créatrice de contenu à Abidjan (Côte d\'Ivoire)',
-      text: 'L\'analyse par capture d\'écran Chariow est bluffante ! L\'IA a immédiatement vu que mon visuel plat Canva ne faisait pas pro. J\'ai téléchargé un mockup 3D et mes conversions sur statut WhatsApp ont triplé.',
-      score: 5,
-    },
-    {
-      name: 'Marc O.',
-      role: 'Formateur en Agro-business à Douala (Cameroun)',
-      text: 'Le moteur d\'étude de marché m\'a évité de perdre 1 mois sur une idée saturée. Il m\'a orienté vers la liculture avec le bon prix FCFA.',
-      score: 5,
-    },
-  ];
 
   return (
     <div className="space-y-16 pb-12">
@@ -108,10 +82,10 @@ export default function HomePage() {
           Les plateformes de vente hébergent ton livre, mais ne te disent jamais pourquoi personne ne l&apos;achète. <strong className="text-[#12122B] dark:text-white">Ebook Check</strong> diagnostique ton produit sur 5 axes stratégiques ou valide ton idée avant même la création.
         </p>
 
-        {/* Hero CTAs */}
+        {/* Hero CTAs -> Redirect to Auth if not logged in */}
         <div className="flex flex-col sm:flex-row justify-center items-stretch gap-4 pt-4 max-w-md mx-auto sm:max-w-none">
           <Link
-            href="/diagnostic"
+            href="/compte?redirect=/diagnostic&msg=auth_required"
             className="bg-[#F2A93B] text-[#12122B] font-extrabold text-base px-6 py-4 rounded-2xl shadow-xl hover:bg-[#F2A93B]/90 transition-all flex items-center justify-center gap-2 min-h-[52px]"
           >
             <Sparkles className="w-5 h-5 text-[#12122B]" />
@@ -119,11 +93,11 @@ export default function HomePage() {
           </Link>
 
           <Link
-            href="/analyse-chariow"
+            href="/compte?redirect=/valider&msg=auth_required"
             className="bg-[#12122B] dark:bg-[#1C1C36] text-[#FAF8F3] font-bold text-base px-6 py-4 rounded-2xl shadow-xl hover:bg-[#12122B]/90 transition-all flex items-center justify-center gap-2 min-h-[52px]"
           >
-            <Camera className="w-5 h-5 text-[#F2A93B]" />
-            Analyse Chariow Vision IA
+            <Lightbulb className="w-5 h-5 text-[#F2A93B]" />
+            Valider une Idée d&apos;Ebook
           </Link>
         </div>
 
@@ -133,7 +107,7 @@ export default function HomePage() {
             <ShieldCheck className="w-4 h-4 text-[#2F9E68]" /> 100% Anonyme & Confidentiel
           </span>
           <span className="flex items-center gap-1.5">
-            <Smartphone className="w-4 h-4 text-[#F2A93B]" /> Paiement Mobile Money en FCFA
+            <Smartphone className="w-4 h-4 text-[#F2A93B]" /> Paiement MTN Mobile Money en FCFA
           </span>
           <span className="flex items-center gap-1.5">
             <Share2 className="w-4 h-4 text-[#2F9E68]" /> Rapport partageable sur WhatsApp
@@ -175,7 +149,7 @@ export default function HomePage() {
           </div>
 
           <Link
-            href="/diagnostic"
+            href="/compte?redirect=/diagnostic&msg=auth_required"
             className="w-full bg-[#12122B] dark:bg-[#F2A93B] text-[#FAF8F3] dark:text-[#12122B] font-bold text-sm py-3.5 rounded-xl hover:opacity-90 transition-all text-center min-h-[48px] flex items-center justify-center gap-2"
           >
             Lancer un Diagnostic <ArrowRight className="w-4 h-4" />
@@ -205,7 +179,7 @@ export default function HomePage() {
                 <CheckCircle2 className="w-4 h-4 text-[#2F9E68]" /> 4 Suggestions de titres accrocheurs
               </li>
               <li className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#2F9E68]" /> Prix idéal d&apos;impulsion Mobile Money
+                <CheckCircle2 className="w-4 h-4 text-[#2F9E68]" /> Prix idéal d&apos;impulsion MTN Mobile Money
               </li>
               <li className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-[#2F9E68]" /> Stratégie pour tes 5 premières précommandes
@@ -214,48 +188,11 @@ export default function HomePage() {
           </div>
 
           <Link
-            href="/valider"
+            href="/compte?redirect=/valider&msg=auth_required"
             className="w-full bg-[#F2A93B] text-[#12122B] font-extrabold text-sm py-3.5 rounded-xl hover:bg-[#F2A93B]/90 transition-all text-center min-h-[48px] flex items-center justify-center gap-2"
           >
             Valider mon Idée <ArrowRight className="w-4 h-4" />
           </Link>
-        </div>
-      </section>
-
-      {/* Testimonials Section (Social Proof) */}
-      <section className="px-4 sm:px-6 max-w-5xl mx-auto space-y-6">
-        <div className="text-center space-y-2">
-          <span className="text-xs font-bold text-[#2F9E68] uppercase tracking-wider bg-[#2F9E68]/10 px-3 py-1 rounded-full">
-            Preuve Sociale Vérifiée
-          </span>
-          <h2 className="font-title text-2xl sm:text-3xl font-extrabold text-[#1B1B2F] dark:text-[#F5F5F3]">
-            Ce que disent les vendeurs de produits digitaux
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((item, idx) => (
-            <div
-              key={idx}
-              className="bg-white dark:bg-[#1C1C36] border border-[#12122B]/10 rounded-3xl p-6 shadow-sm flex flex-col justify-between space-y-4"
-            >
-              <div className="space-y-3">
-                <div className="flex gap-1 text-[#F2A93B]">
-                  {[...Array(item.score)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-[#F2A93B]" />
-                  ))}
-                </div>
-                <p className="text-xs text-[#1B1B2F]/80 dark:text-[#F5F5F3]/80 italic leading-relaxed">
-                  &ldquo;{item.text}&rdquo;
-                </p>
-              </div>
-
-              <div className="pt-3 border-t border-gray-100 dark:border-white/10">
-                <p className="font-title font-bold text-sm text-[#12122B] dark:text-white">{item.name}</p>
-                <p className="text-[10px] text-[#1B1B2F]/60 dark:text-[#F5F5F3]/60">{item.role}</p>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 
@@ -286,7 +223,7 @@ export default function HomePage() {
                 <td className="py-3 px-2 text-[#12122B]/60 dark:text-white/60">Non (complémentaire)</td>
               </tr>
               <tr>
-                <td className="py-3 px-2 font-medium">Encaissement Mobile Money</td>
+                <td className="py-3 px-2 font-medium">Encaissement MTN Mobile Money</td>
                 <td className="py-3 px-2 text-[#2F9E68]">Oui ✅</td>
                 <td className="py-3 px-2 text-[#12122B]/60 dark:text-white/60">Non (se concentre sur le diagnostic)</td>
               </tr>
@@ -312,19 +249,19 @@ export default function HomePage() {
 
       {/* Final Call to Action Banner */}
       <section className="px-4 sm:px-6 max-w-4xl mx-auto">
-        <div className="bg-[#12122B] text-[#FAF8F3] rounded-3xl p-8 sm:p-12 text-center space-y-6 shadow-2xl relative overflow-hidden">
+        <div className="bg-[#12122B] text-[#FAF3E7] rounded-3xl p-8 sm:p-12 text-center space-y-6 shadow-2xl relative overflow-hidden">
           <h2 className="font-title text-3xl sm:text-4xl font-extrabold text-[#F2A93B]">
             Débloque tes premières ventes dès aujourd&apos;hui
           </h2>
-          <p className="text-sm sm:text-base text-[#FAF8F3]/80 max-w-xl mx-auto">
-            Prends 2 minutes pour tester gratuitement ton produit et obtiens un plan d&apos;action sur-mesure.
+          <p className="text-sm sm:text-base text-[#FAF3E7]/80 max-w-xl mx-auto">
+            Crée ton compte gratuit en 30 secondes pour tester ton produit et obtenir ton plan d&apos;action sur-mesure.
           </p>
           <div>
             <Link
-              href="/diagnostic"
+              href="/compte?redirect=/diagnostic&msg=auth_required"
               className="inline-flex items-center gap-2 bg-[#F2A93B] text-[#12122B] font-extrabold text-base px-8 py-4 rounded-2xl shadow-xl hover:bg-[#F2A93B]/90 transition-all min-h-[52px]"
             >
-              Lancer mon Diagnostic Gratuit <ArrowRight className="w-5 h-5" />
+              Créer mon Compte Gratuit <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         </div>
