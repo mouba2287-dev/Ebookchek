@@ -1,9 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Check, Sparkles, Zap, ShieldCheck, ArrowRight, Smartphone, Star } from 'lucide-react';
+import { Check, Sparkles, Zap, ShieldCheck, Smartphone, Star } from 'lucide-react';
 import MobileMoneyModal from '@/components/MobileMoneyModal';
-import { formatFCFA } from '@/lib/utils';
 
 export default function TarifsPage() {
   const [selectedPlan, setSelectedPlan] = useState<{
@@ -31,7 +30,7 @@ export default function TarifsPage() {
           Paliers d&apos;Abonnements Ebook Check
         </h1>
         <p className="text-sm sm:text-base text-[#1B1B2F]/80 dark:text-[#F5F5F3]/80 max-w-2xl mx-auto leading-relaxed">
-          Paiement facile par Mobile Money (MTN, Moov, Orange, Wave). Annulable à tout moment.
+          Paiement facile par MTN Mobile Money. Annulable à tout moment.
         </p>
       </div>
 
@@ -173,7 +172,7 @@ export default function TarifsPage() {
       <div className="bg-white dark:bg-[#1C1C36] border border-[#12122B]/10 rounded-2xl p-6 text-center space-y-3">
         <div className="flex items-center justify-center gap-2 text-xs font-bold text-[#12122B] dark:text-[#F5F5F3]">
           <ShieldCheck className="w-5 h-5 text-[#2F9E68]" />
-          <span>Compatible Mobile Money MTN Bénin, Moov, Orange Money & Wave</span>
+          <span>Compatible MTN Mobile Money</span>
         </div>
         <p className="text-xs text-[#12122B]/70 dark:text-[#F5F5F3]/70">
           Sécurité garantie. Activation automatique dès la confirmation de la transaction.

@@ -80,7 +80,7 @@ export default function Footer() {
 
         <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-[#FAF3E7]/60 gap-4">
           <p>© {new Date().getFullYear()} Ebook Check. Tous droits réservés. Développé pour les entrepreneurs digitaux en Afrique de l&apos;Ouest.</p>
-          <p className="text-right">Paiements sécurisés via MTN Mobile Money, Moov, Orange Money & Wave.</p>
+          <p className="text-right">Paiements sécurisés via MTN Mobile Money.</p>
         </div>
       </div>
     </footer>
