@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Check, Sparkles, Zap, ShieldCheck, ArrowRight, Smartphone } from 'lucide-react';
+import { Check, Sparkles, Zap, ShieldCheck, ArrowRight, Smartphone, Star } from 'lucide-react';
 import MobileMoneyModal from '@/components/MobileMoneyModal';
 import { formatFCFA } from '@/lib/utils';
 
@@ -22,151 +22,161 @@ export default function TarifsPage() {
   };
 
   return (
-    <div className="min-h-screen py-10 px-4 sm:px-6 max-w-5xl mx-auto space-y-10">
+    <div className="min-h-screen py-10 px-4 sm:px-6 max-w-6xl mx-auto space-y-10">
       <div className="text-center space-y-3">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#12122B] text-[#F2A93B] text-xs font-semibold shadow-sm">
           <Zap className="w-4 h-4 text-[#F2A93B]" /> Tarifs Transparents en FCFA
         </div>
-        <h1 className="font-title text-3xl sm:text-4xl font-extrabold text-[#1B1B2F] tracking-tight">
-          Investis dans ce qui vend vraiment
+        <h1 className="font-title text-3xl sm:text-4xl font-extrabold text-[#1B1B2F] dark:text-[#F5F5F3] tracking-tight">
+          Paliers d&apos;Abonnements Ebook Check
         </h1>
-        <p className="text-sm sm:text-base text-[#1B1B2F]/80 max-w-2xl mx-auto leading-relaxed">
-          Choisis le forfait adapté à tes objectifs : teste gratuitement ou débloque des diagnostics illimités par Mobile Money.
+        <p className="text-sm sm:text-base text-[#1B1B2F]/80 dark:text-[#F5F5F3]/80 max-w-2xl mx-auto leading-relaxed">
+          Paiement facile par Mobile Money (MTN, Moov, Orange, Wave). Annulable à tout moment.
         </p>
       </div>
 
       {hasPaid && (
         <div className="p-4 bg-[#2F9E68]/15 border border-[#2F9E68] text-[#2F9E68] rounded-2xl text-center font-bold text-sm">
-          🎉 Félicitations ! Votre accès Premium Ebook Check est débloqué.
+          🎉 Félicitations ! Votre abonnement Ebook Check est débloqué.
         </div>
       )}
 
+      {/* Founder Offer Badge */}
+      <div className="bg-[#F2A93B]/20 border border-[#F2A93B] rounded-2xl p-4 text-center space-y-1 max-w-2xl mx-auto">
+        <p className="text-xs font-bold text-[#12122B] dark:text-[#F2A93B] flex items-center justify-center gap-1.5">
+          <Star className="w-4 h-4 fill-[#F2A93B] text-[#12122B]" /> Offre Tarif Fondateur (100 premiers inscrits)
+        </p>
+        <p className="text-xs text-[#12122B]/80 dark:text-[#FAF8F3]/80">
+          Obtiens le plan <strong>Créateur à 2 000 FCFA/mois</strong> au lieu de 3 000 FCFA, verrouillé à vie !
+        </p>
+      </div>
+
       {/* Pricing cards grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Free Plan */}
-        <div className="bg-white border border-[#12122B]/15 rounded-3xl p-6 shadow-sm flex flex-col justify-between space-y-6">
+        {/* Gratuit Plan */}
+        <div className="bg-white dark:bg-[#1C1C36] border border-[#12122B]/15 rounded-3xl p-6 shadow-sm flex flex-col justify-between space-y-6">
           <div className="space-y-4">
-            <span className="text-xs font-bold text-[#12122B]/60 uppercase tracking-wider">
+            <span className="text-xs font-bold text-[#12122B]/60 dark:text-[#F5F5F3]/60 uppercase tracking-wider">
               Découverte
             </span>
-            <h3 className="font-title text-2xl font-bold text-[#12122B]">Gratuit</h3>
-            <div className="font-title text-3xl font-extrabold text-[#12122B]">
-              0 <span className="text-sm font-normal text-[#12122B]/60">FCFA</span>
+            <h3 className="font-title text-2xl font-bold text-[#12122B] dark:text-white">Gratuit</h3>
+            <div className="font-title text-3xl font-extrabold text-[#12122B] dark:text-white">
+              0 <span className="text-sm font-normal text-[#12122B]/60 dark:text-[#F5F5F3]/60">FCFA</span>
             </div>
-            <p className="text-xs text-[#12122B]/80 leading-relaxed">
-              Pour tester l&apos;analyse de ton premier ebook sans débourser un franc.
+            <p className="text-xs text-[#12122B]/80 dark:text-[#F5F5F3]/80 leading-relaxed">
+              Pour les créateurs qui débutent et veulent tester la viabilité d&apos;un premier projet.
             </p>
-            <ul className="space-y-2.5 text-xs text-[#12122B] pt-2">
+            <ul className="space-y-2.5 text-xs text-[#12122B] dark:text-[#F5F5F3] pt-2">
               <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-[#2F9E68]" /> 1 Diagnostic gratuit par mois
+                <Check className="w-4 h-4 text-[#2F9E68]" /> 1 Diagnostic 0 Vente / mois
               </li>
               <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-[#2F9E68]" /> Score sur 5 axes stratégiques
+                <Check className="w-4 h-4 text-[#2F9E68]" /> 1 Validation d&apos;idée / mois
               </li>
               <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-[#2F9E68]" /> Recommandations prioritaires
+                <Check className="w-4 h-4 text-[#2F9E68]" /> Étude de marché Self-service
               </li>
               <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-[#2F9E68]" /> Partage d&apos;image WhatsApp
+                <Check className="w-4 h-4 text-[#2F9E68]" /> Accès complet à l&apos;Académie
               </li>
             </ul>
           </div>
 
           <button
             onClick={() => handlePlanSelect('Gratuit', 0)}
-            className="w-full bg-[#12122B]/10 text-[#12122B] hover:bg-[#12122B]/20 font-bold py-3.5 rounded-xl transition-all min-h-[48px] flex items-center justify-center gap-1.5"
+            className="w-full bg-[#12122B]/10 dark:bg-white/10 text-[#12122B] dark:text-white hover:bg-[#12122B]/20 font-bold py-3.5 rounded-xl transition-all min-h-[48px] flex items-center justify-center gap-1.5"
           >
-            Tester Maintenant
+            Tester Gratuitement
           </button>
         </div>
 
-        {/* Paid Single Report */}
-        <div className="bg-white border-2 border-[#F2A93B] rounded-3xl p-6 shadow-lg flex flex-col justify-between space-y-6 relative overflow-hidden">
+        {/* Créateur Plan */}
+        <div className="bg-white dark:bg-[#1C1C36] border-2 border-[#F2A93B] rounded-3xl p-6 shadow-lg flex flex-col justify-between space-y-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 bg-[#F2A93B] text-[#12122B] font-extrabold text-[10px] px-3 py-1 rounded-bl-xl uppercase tracking-wider">
-            Recommandé
+            Populaire
           </div>
 
           <div className="space-y-4">
             <span className="text-xs font-bold text-[#F2A93B] uppercase tracking-wider">
-              À l&apos;unité
+              Palier Créateur
             </span>
-            <h3 className="font-title text-2xl font-bold text-[#12122B]">Rapport Détaillé</h3>
-            <div className="font-title text-3xl font-extrabold text-[#12122B]">
-              2 500 <span className="text-sm font-normal text-[#12122B]/60">FCFA</span>
+            <h3 className="font-title text-2xl font-bold text-[#12122B] dark:text-white">Créateur</h3>
+            <div className="font-title text-3xl font-extrabold text-[#12122B] dark:text-white">
+              3 000 <span className="text-sm font-normal text-[#12122B]/60 dark:text-[#F5F5F3]/60">FCFA / mois</span>
             </div>
-            <p className="text-xs text-[#12122B]/80 leading-relaxed">
-              Pour débloquer une analyse approfondie sur un ebook spécifique qui ne vend pas.
+            <p className="text-xs text-[#12122B]/80 dark:text-[#F5F5F3]/80 leading-relaxed">
+              Ou 30 000 FCFA/an (2 mois offerts). Parfait pour vendre régulièrement sur WhatsApp.
             </p>
-            <ul className="space-y-2.5 text-xs text-[#12122B] pt-2">
+            <ul className="space-y-2.5 text-xs text-[#12122B] dark:text-[#F5F5F3] pt-2">
               <li className="flex items-center gap-2 font-semibold">
-                <Check className="w-4 h-4 text-[#2F9E68]" /> Tout le plan Gratuit
-              </li>
-              <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-[#2F9E68]" /> Moteur d&apos;idées de titres accrocheurs
-              </li>
-              <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-[#2F9E68]" /> Audit de prix en FCFA
-              </li>
-              <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-[#2F9E68]" /> Exportation du rapport en image HD
-              </li>
-            </ul>
-          </div>
-
-          <button
-            onClick={() => handlePlanSelect('Rapport Détaillé', 2500)}
-            className="w-full bg-[#F2A93B] text-[#12122B] hover:bg-[#F2A93B]/90 font-extrabold py-3.5 rounded-xl transition-all shadow-md min-h-[48px] flex items-center justify-center gap-2"
-          >
-            <Smartphone className="w-4 h-4" /> Payer 2 500 FCFA
-          </button>
-        </div>
-
-        {/* Monthly Unlimited Pass */}
-        <div className="bg-[#12122B] text-[#FAF3E7] border border-white/10 rounded-3xl p-6 shadow-xl flex flex-col justify-between space-y-6">
-          <div className="space-y-4">
-            <span className="text-xs font-bold text-[#F2A93B] uppercase tracking-wider">
-              Pass VIP
-            </span>
-            <h3 className="font-title text-2xl font-bold text-white">Pass Mensuel</h3>
-            <div className="font-title text-3xl font-extrabold text-[#F2A93B]">
-              7 500 <span className="text-sm font-normal text-white/60">FCFA / mois</span>
-            </div>
-            <p className="text-xs text-[#FAF3E7]/80 leading-relaxed">
-              Pour les infopreneurs et créateurs prolifiques qui publient plusieurs ebooks.
-            </p>
-            <ul className="space-y-2.5 text-xs text-[#FAF3E7] pt-2">
-              <li className="flex items-center gap-2">
                 <Check className="w-4 h-4 text-[#2F9E68]" /> Diagnostics & Validations Illimités
               </li>
               <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-[#2F9E68]" /> Accès à l&apos;historique complet sur votre compte
+                <Check className="w-4 h-4 text-[#2F9E68]" /> 1 Analyse de marché auto / mois
               </li>
               <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-[#2F9E68]" /> Conseils stratégiques WhatsApp prioritaires
+                <Check className="w-4 h-4 text-[#2F9E68]" /> Analyse Chariow (3 captures max)
               </li>
               <li className="flex items-center gap-2">
-                <Check className="w-4 h-4 text-[#2F9E68]" /> Sans engagement, annulation à tout moment
+                <Check className="w-4 h-4 text-[#2F9E68]" /> Accès complet à l&apos;Académie
               </li>
             </ul>
           </div>
 
           <button
-            onClick={() => handlePlanSelect('Pass Mensuel Illimité', 7500)}
+            onClick={() => handlePlanSelect('Créateur', 3000)}
             className="w-full bg-[#F2A93B] text-[#12122B] hover:bg-[#F2A93B]/90 font-extrabold py-3.5 rounded-xl transition-all shadow-md min-h-[48px] flex items-center justify-center gap-2"
           >
-            <Sparkles className="w-4 h-4 text-[#12122B]" /> S&apos;abonner (7 500 FCFA)
+            <Smartphone className="w-4 h-4" /> Passer à Créateur (3 000 FCFA)
+          </button>
+        </div>
+
+        {/* Pro Plan */}
+        <div className="bg-[#12122B] text-[#FAF3E7] border border-white/10 rounded-3xl p-6 shadow-xl flex flex-col justify-between space-y-6">
+          <div className="space-y-4">
+            <span className="text-xs font-bold text-[#F2A93B] uppercase tracking-wider">
+              Palier Pro
+            </span>
+            <h3 className="font-title text-2xl font-bold text-white">Pro</h3>
+            <div className="font-title text-3xl font-extrabold text-[#F2A93B]">
+              8 000 <span className="text-sm font-normal text-white/60">FCFA / mois</span>
+            </div>
+            <p className="text-xs text-[#FAF3E7]/80 leading-relaxed">
+              Ou 80 000 FCFA/an. Pour les infopreneurs, agences et éditeurs prolifiques.
+            </p>
+            <ul className="space-y-2.5 text-xs text-[#FAF3E7] pt-2">
+              <li className="flex items-center gap-2 font-bold">
+                <Check className="w-4 h-4 text-[#2F9E68]" /> Étude de marché à la demande & Illimitée
+              </li>
+              <li className="flex items-center gap-2 font-bold">
+                <Check className="w-4 h-4 text-[#2F9E68]" /> Générateur d&apos;Idées Pro par IA
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-[#2F9E68]" /> Analyse Chariow multi-captures Illimitée
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-[#2F9E68]" /> Support prioritaire WhatsApp
+              </li>
+            </ul>
+          </div>
+
+          <button
+            onClick={() => handlePlanSelect('Pro', 8000)}
+            className="w-full bg-[#F2A93B] text-[#12122B] hover:bg-[#F2A93B]/90 font-extrabold py-3.5 rounded-xl transition-all shadow-md min-h-[48px] flex items-center justify-center gap-2"
+          >
+            <Sparkles className="w-4 h-4 text-[#12122B]" /> S&apos;abonner Pro (8 000 FCFA)
           </button>
         </div>
       </div>
 
       {/* Payment Security Footer */}
-      <div className="bg-white border border-[#12122B]/10 rounded-2xl p-6 text-center space-y-3">
-        <div className="flex items-center justify-center gap-2 text-xs font-bold text-[#12122B]">
+      <div className="bg-white dark:bg-[#1C1C36] border border-[#12122B]/10 rounded-2xl p-6 text-center space-y-3">
+        <div className="flex items-center justify-center gap-2 text-xs font-bold text-[#12122B] dark:text-[#F5F5F3]">
           <ShieldCheck className="w-5 h-5 text-[#2F9E68]" />
-          <span>Compatible avec tous les comptes Mobile Money en Afrique de l&apos;Ouest & du Centre</span>
+          <span>Compatible Mobile Money MTN Bénin, Moov, Orange Money & Wave</span>
         </div>
-        <p className="text-xs text-[#12122B]/70">
-          MTN Mobile Money, Moov Money, Orange Money & Wave. Paiement direct sans redirection compliquée.
+        <p className="text-xs text-[#12122B]/70 dark:text-[#F5F5F3]/70">
+          Sécurité garantie. Activation automatique dès la confirmation de la transaction.
         </p>
       </div>
 

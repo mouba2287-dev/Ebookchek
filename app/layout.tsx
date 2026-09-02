@@ -3,6 +3,8 @@ import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CookieBanner from '@/components/CookieBanner';
+import BottomNav from '@/components/BottomNav';
+import { ThemeProvider } from '@/components/ThemeProvider';
 
 export const metadata: Metadata = {
   title: 'Ebook Check — Diagnostic & Validation d\'Ebooks pour l\'Afrique Francophone',
@@ -35,11 +37,14 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-[#FAF3E7] text-[#1B1B2F] font-sans antialiased flex flex-col min-h-screen selection:bg-[#F2A93B]/30 selection:text-[#12122B]">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <CookieBanner />
+      <body className="bg-[#FAF8F3] dark:bg-[#12122B] text-[#1B1B2F] dark:text-[#F5F5F3] font-sans antialiased flex flex-col min-h-screen selection:bg-[#F2A93B]/30 selection:text-[#12122B] transition-colors pb-16 md:pb-0">
+        <ThemeProvider>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <CookieBanner />
+          <BottomNav />
+        </ThemeProvider>
       </body>
     </html>
   );
