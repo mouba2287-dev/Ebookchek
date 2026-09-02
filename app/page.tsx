@@ -82,10 +82,10 @@ export default function HomePage() {
           Les plateformes de vente hébergent ton livre, mais ne te disent jamais pourquoi personne ne l&apos;achète. <strong className="text-[#12122B] dark:text-white">Ebook Check</strong> diagnostique ton produit sur 5 axes stratégiques ou valide ton idée avant même la création.
         </p>
 
-        {/* Hero CTAs */}
+        {/* Hero CTAs -> Redirect to Auth if not logged in */}
         <div className="flex flex-col sm:flex-row justify-center items-stretch gap-4 pt-4 max-w-md mx-auto sm:max-w-none">
           <Link
-            href="/diagnostic"
+            href="/compte?redirect=/diagnostic&msg=auth_required"
             className="bg-[#F2A93B] text-[#12122B] font-extrabold text-base px-6 py-4 rounded-2xl shadow-xl hover:bg-[#F2A93B]/90 transition-all flex items-center justify-center gap-2 min-h-[52px]"
           >
             <Sparkles className="w-5 h-5 text-[#12122B]" />
@@ -93,11 +93,11 @@ export default function HomePage() {
           </Link>
 
           <Link
-            href="/analyse-chariow"
+            href="/compte?redirect=/valider&msg=auth_required"
             className="bg-[#12122B] dark:bg-[#1C1C36] text-[#FAF8F3] font-bold text-base px-6 py-4 rounded-2xl shadow-xl hover:bg-[#12122B]/90 transition-all flex items-center justify-center gap-2 min-h-[52px]"
           >
-            <Camera className="w-5 h-5 text-[#F2A93B]" />
-            Analyse Chariow Vision IA
+            <Lightbulb className="w-5 h-5 text-[#F2A93B]" />
+            Valider une Idée d&apos;Ebook
           </Link>
         </div>
 
@@ -149,7 +149,7 @@ export default function HomePage() {
           </div>
 
           <Link
-            href="/diagnostic"
+            href="/compte?redirect=/diagnostic&msg=auth_required"
             className="w-full bg-[#12122B] dark:bg-[#F2A93B] text-[#FAF8F3] dark:text-[#12122B] font-bold text-sm py-3.5 rounded-xl hover:opacity-90 transition-all text-center min-h-[48px] flex items-center justify-center gap-2"
           >
             Lancer un Diagnostic <ArrowRight className="w-4 h-4" />
@@ -188,7 +188,7 @@ export default function HomePage() {
           </div>
 
           <Link
-            href="/valider"
+            href="/compte?redirect=/valider&msg=auth_required"
             className="w-full bg-[#F2A93B] text-[#12122B] font-extrabold text-sm py-3.5 rounded-xl hover:bg-[#F2A93B]/90 transition-all text-center min-h-[48px] flex items-center justify-center gap-2"
           >
             Valider mon Idée <ArrowRight className="w-4 h-4" />
@@ -254,14 +254,14 @@ export default function HomePage() {
             Débloque tes premières ventes dès aujourd&apos;hui
           </h2>
           <p className="text-sm sm:text-base text-[#FAF3E7]/80 max-w-xl mx-auto">
-            Prends 2 minutes pour tester gratuitement ton produit et obtiens un plan d&apos;action sur-mesure.
+            Crée ton compte gratuit en 30 secondes pour tester ton produit et obtenir ton plan d&apos;action sur-mesure.
           </p>
           <div>
             <Link
-              href="/diagnostic"
+              href="/compte?redirect=/diagnostic&msg=auth_required"
               className="inline-flex items-center gap-2 bg-[#F2A93B] text-[#12122B] font-extrabold text-base px-8 py-4 rounded-2xl shadow-xl hover:bg-[#F2A93B]/90 transition-all min-h-[52px]"
             >
-              Lancer mon Diagnostic Gratuit <ArrowRight className="w-5 h-5" />
+              Créer mon Compte Gratuit <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         </div>
