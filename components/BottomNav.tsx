@@ -8,7 +8,6 @@ import {
   Lightbulb,
   BookOpen,
   User,
-  Search,
   LayoutDashboard
 } from 'lucide-react';
 

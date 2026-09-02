@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -17,9 +17,7 @@ import {
   HelpCircle,
   User,
   PanelLeftClose,
-  PanelLeftOpen,
-  ChevronRight,
-  LogOut
+  PanelLeftOpen
 } from 'lucide-react';
 import { useTheme } from './ThemeProvider';
 
@@ -27,6 +25,15 @@ export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
+
+  useEffect(() => {
+    // Sync main layout padding via CSS custom property on root
+    if (isCollapsed) {
+      document.documentElement.style.setProperty('--sidebar-width', '5rem');
+    } else {
+      document.documentElement.style.setProperty('--sidebar-width', '16rem');
+    }
+  }, [isCollapsed]);
 
   const navLinks = [
     { href: '/tableau-de-bord', label: 'Tableau de bord', icon: LayoutDashboard },
@@ -45,7 +52,6 @@ export default function Sidebar() {
         isCollapsed ? 'w-20' : 'w-64'
       }`}
     >
-      {/* Top Sidebar Header */}
       <div className="p-4 space-y-6">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 overflow-hidden">
@@ -59,7 +65,6 @@ export default function Sidebar() {
             )}
           </Link>
 
-          {/* Collapse toggle button */}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
             className="p-2 rounded-xl text-[#1B1B2F]/60 dark:text-white/60 hover:text-[#1B1B2F] dark:hover:text-white hover:bg-[#12122B]/5 dark:hover:bg-white/10 transition-colors shrink-0"
@@ -73,7 +78,6 @@ export default function Sidebar() {
           </button>
         </div>
 
-        {/* Navigation Items */}
         <nav className="space-y-1.5 pt-2">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
@@ -97,9 +101,7 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      {/* Bottom Profile & Theme Section */}
       <div className="p-4 border-t border-[#1B1B2F]/10 dark:border-white/10 space-y-3">
-        {/* Dark/Light toggle */}
         <button
           onClick={toggleTheme}
           className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-[#12122B]/5 dark:bg-white/10 text-[#1B1B2F] dark:text-[#F5F5F3] hover:bg-[#12122B]/10 dark:hover:bg-white/20 transition-colors text-xs font-semibold ${
@@ -110,7 +112,6 @@ export default function Sidebar() {
           {!isCollapsed && <span>{theme === 'dark' ? 'Mode Clair' : 'Mode Sombre'}</span>}
         </button>
 
-        {/* Account Profile Card */}
         <Link
           href="/compte"
           className={`flex items-center gap-3 p-2.5 rounded-2xl bg-white dark:bg-[#1C1C36] border border-[#1B1B2F]/10 dark:border-white/10 hover:border-[#F2A93B] transition-colors ${

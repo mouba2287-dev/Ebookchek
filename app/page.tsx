@@ -7,8 +7,7 @@ import {
   ShieldCheck,
   Smartphone,
   Zap,
-  Share2,
-  Camera
+  Share2
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -82,7 +81,7 @@ export default function HomePage() {
           Les plateformes de vente hébergent ton livre, mais ne te disent jamais pourquoi personne ne l&apos;achète. <strong className="text-[#12122B] dark:text-white">Ebook Check</strong> diagnostique ton produit sur 5 axes stratégiques ou valide ton idée avant même la création.
         </p>
 
-        {/* Hero CTAs -> Redirect to Auth if not logged in */}
+        {/* Hero CTAs */}
         <div className="flex flex-col sm:flex-row justify-center items-stretch gap-4 pt-4 max-w-md mx-auto sm:max-w-none">
           <Link
             href="/compte?redirect=/diagnostic&msg=auth_required"

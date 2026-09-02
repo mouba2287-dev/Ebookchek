@@ -15,8 +15,7 @@ import {
   HelpCircle,
   Download,
   ShieldCheck,
-  Upload,
-  Image as ImageIcon
+  Upload
 } from 'lucide-react';
 import html2canvas from 'html2canvas';
 
@@ -28,6 +27,7 @@ export default function DiagnosticPage() {
     description: '',
     hasCoverImage: true,
     coverStyle: 'canva_template' as 'canva_template' | 'custom_pro' | 'text_only' | 'no_cover',
+    coverImage: '' as string,
     promotionChannel: 'whatsapp' as 'whatsapp' | 'tiktok' | 'facebook' | 'instagram' | 'email' | 'other',
     timeOnlineDays: 14,
     salesCount: 0,
@@ -40,7 +40,6 @@ export default function DiagnosticPage() {
   const [isGeneratingShare, setIsGeneratingShare] = useState(false);
   const reportRef = useRef<HTMLDivElement>(null);
 
-  // Auto parsing URL on blur or change
   const handleUrlChange = (url: string) => {
     setFormData(prev => ({ ...prev, productUrl: url }));
     if (url.startsWith('http')) {
@@ -71,7 +70,8 @@ export default function DiagnosticPage() {
       setFormData(prev => ({
         ...prev,
         hasCoverImage: true,
-        coverStyle: 'custom_pro'
+        coverStyle: 'custom_pro',
+        coverImage: resultStr,
       }));
     };
     reader.readAsDataURL(file);
@@ -95,7 +95,6 @@ export default function DiagnosticPage() {
       }
 
       setResult(data.data);
-      // Save report to local memory for user account history persistence
       try {
         const existingHistory = JSON.parse(localStorage.getItem('ebookcheck_reports') || '[]');
         existingHistory.unshift({ ...data.data, type: 'diagnostic' });
@@ -126,7 +125,6 @@ export default function DiagnosticPage() {
         });
         const image = canvas.toDataURL('image/png');
 
-        // Trigger download of summary card image
         const link = document.createElement('a');
         link.href = image;
         link.download = `Diagnostic-EbookCheck-${result.id}.png`;
@@ -136,7 +134,6 @@ export default function DiagnosticPage() {
       window.open(whatsappUrl, '_blank');
     } catch (err) {
       console.error('Error generating WhatsApp share card:', err);
-      // Fallback to text link
       const textMessage = `*Diagnostic Ebook Check* 📊\nProduit : "${result.title}"\nScore : *${result.overallScore}/100*`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(textMessage)}`, '_blank');
     } finally {
@@ -146,7 +143,6 @@ export default function DiagnosticPage() {
 
   return (
     <div className="min-h-screen py-10 px-4 sm:px-6 max-w-4xl mx-auto space-y-10">
-      {/* Header section */}
       <div className="text-center space-y-3">
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#12122B] text-[#F2A93B] text-xs font-semibold shadow-sm">
           <Sparkles className="w-4 h-4 text-[#F2A93B]" /> Mode Diagnostic 0 Vente
@@ -160,7 +156,6 @@ export default function DiagnosticPage() {
       </div>
 
       {!result ? (
-        /* Form view */
         <form onSubmit={handleSubmit} className="bg-[#FAF3E7] dark:bg-[#1C1C36] border border-[#12122B]/15 dark:border-white/15 p-6 sm:p-8 rounded-2xl shadow-xl space-y-6">
           {error && (
             <div className="p-4 bg-[#E85C4A]/15 border border-[#E85C4A] text-[#E85C4A] rounded-xl text-sm flex items-center gap-3">
@@ -183,9 +178,6 @@ export default function DiagnosticPage() {
               />
               <LinkIcon className="w-4 h-4 text-[#1B1B2F]/40 dark:text-white/40 absolute left-3 top-3.5" />
             </div>
-            <p className="text-xs text-[#1B1B2F]/60 dark:text-[#F5F5F3]/60">
-              Si tu colles ton lien Chariow ou Maketou, nous pré-remplissons automatiquement les champs détectables.
-            </p>
           </div>
 
           <div className="space-y-2">
@@ -253,7 +245,6 @@ export default function DiagnosticPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {/* Real Image File Upload instead of dropdown */}
             <div className="space-y-2">
               <label className="block text-sm font-semibold text-[#1B1B2F] dark:text-[#F5F5F3]">
                 Visuel / Couverture Réelle (jpg, png, webp)
@@ -318,9 +309,7 @@ export default function DiagnosticPage() {
           </button>
         </form>
       ) : (
-        /* Report View */
         <div className="space-y-8 animate-fade-in">
-          {/* Action header bar */}
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-[#12122B] text-[#FAF3E7] p-4 rounded-2xl">
             <div>
               <p className="text-xs text-[#F2A93B] font-semibold">Rapport généré avec succès</p>
@@ -348,12 +337,10 @@ export default function DiagnosticPage() {
             </div>
           </div>
 
-          {/* Core Visual Report Card (Ref for html2canvas export) */}
           <div
             ref={reportRef}
             className="bg-[#FAF3E7] dark:bg-[#1C1C36] border-2 border-[#12122B] dark:border-white/20 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-8"
           >
-            {/* Score reveal banner */}
             <div className="bg-[#12122B] text-[#FAF3E7] rounded-2xl p-6 sm:p-8 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="space-y-2 text-center md:text-left z-10">
                 <span className="text-xs font-bold text-[#F2A93B] uppercase tracking-wider">
@@ -367,7 +354,6 @@ export default function DiagnosticPage() {
                 </p>
               </div>
 
-              {/* Animated Big Score Badge */}
               <div className="shrink-0 flex flex-col items-center justify-center w-32 h-32 rounded-2xl bg-gradient-to-br from-[#F2A93B] to-[#E85C4A] text-[#12122B] p-4 shadow-xl transform transition-transform hover:scale-105 duration-500">
                 <span className="font-title text-4xl font-extrabold leading-none">
                   {result.overallScore}
@@ -379,11 +365,10 @@ export default function DiagnosticPage() {
               </div>
             </div>
 
-            {/* Top 4 Priority Actions */}
             <div className="bg-[#12122B]/5 dark:bg-white/5 border border-[#12122B]/10 dark:border-white/10 rounded-2xl p-5 space-y-3">
               <h4 className="font-title text-base font-bold text-[#12122B] dark:text-white flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-[#F2A93B]" />
-                Plan d&apos;Action Prioritaire (Ce qu&apos;il faut changer aujourd&apos;hui)
+                Plan d&apos;Action Prioritaire
               </h4>
               <ul className="space-y-2 text-xs sm:text-sm text-[#1B1B2F] dark:text-[#F5F5F3]">
                 {result.topActions.map((action, idx) => (
@@ -395,7 +380,6 @@ export default function DiagnosticPage() {
               </ul>
             </div>
 
-            {/* 5 Axes Detailed Breakdown */}
             <div className="space-y-6">
               <h4 className="font-title text-xl font-bold text-[#12122B] dark:text-white">
                 Analyse détaillée sur les 5 axes
@@ -427,7 +411,6 @@ export default function DiagnosticPage() {
                       </span>
                     </div>
 
-                    {/* Progress Score Bar */}
                     <div className="w-full bg-gray-100 dark:bg-white/10 h-3 rounded-full overflow-hidden">
                       <div
                         className={`h-full rounded-full transition-all duration-1000 ${
@@ -461,7 +444,6 @@ export default function DiagnosticPage() {
               </div>
             </div>
 
-            {/* Bottom Footer Note */}
             <div className="text-center pt-4 border-t border-[#12122B]/10 dark:border-white/10 text-xs text-[#1B1B2F]/60 dark:text-[#F5F5F3]/60">
               <p>Généré par Ebook Check • L&apos;outil d&apos;analyse pour entrepreneurs digitaux en Afrique de l&apos;Ouest</p>
             </div>

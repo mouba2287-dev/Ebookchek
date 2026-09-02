@@ -21,14 +21,12 @@ export async function middleware(request: NextRequest) {
     '/compte',
   ];
 
-  // Fast path for public routes, static assets, and api endpoints
   const isPublic =
     publicRoutes.includes(pathname) ||
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
     pathname.includes('.');
 
-  // Check client local session cookie
   const hasLocalSessionCookie = request.cookies.get('ebookcheck_auth')?.value === 'true';
 
   let user = null;
@@ -36,7 +34,6 @@ export async function middleware(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  // Only invoke Supabase if valid credentials are provided in environment
   if (supabaseUrl && supabaseAnonKey && !supabaseUrl.includes('placeholder')) {
     try {
       const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {

@@ -41,11 +41,8 @@ export default function RootLayout({
       <body className="bg-[#FAF8F3] dark:bg-[#12122B] text-[#1B1B2F] dark:text-[#F5F5F3] font-sans antialiased flex flex-col min-h-screen selection:bg-[#F2A93B]/30 selection:text-[#12122B] transition-colors pb-16 md:pb-0">
         <ThemeProvider>
           <div className="flex flex-1 min-h-screen">
-            {/* Sidebar for Desktop */}
             <Sidebar />
-
-            {/* Main content wrapper */}
-            <div className="flex-1 flex flex-col md:pl-64 transition-all duration-300">
+            <div className="flex-1 flex flex-col md:pl-[var(--sidebar-width,16rem)] transition-all duration-300">
               <Navbar />
               <main className="flex-1">{children}</main>
               <Footer />
